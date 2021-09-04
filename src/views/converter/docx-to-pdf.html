@@ -1,0 +1,31 @@
+
+<html>
+<head></head>
+<link rel="stylesheet" href="../css/style.css">
+<body>
+
+  <form action="/uploaddocx" enctype="multipart/form-data" method="POST">
+      <h1 class="top-heading">Convert DOCX to PDF</h1>
+      <div class="inner-wrap">
+      <div class="under-wrap">
+        <label><input type="file" id="docx" name="docx" /></label>
+        <div>
+          <input type="submit" name="Upload" value="Upload File"/>
+        </div>
+      </div>
+      </div>
+  
+  </div>
+  </form>
+  <div class="converted-file-div">
+  <% if(convertedFileDetail) { %>
+  <% if(convertedFileDetail && convertedFileDetail.success == false){ %>
+    <p class="error"><%= convertedFileDetail.message %></p>
+  <% } else { %>
+  <p class="muted-text"><%= convertedFileDetail.message %></p>
+  <a class="download-btn" href='<%= convertedFileDetail.data.converted_file %>' download>download .docx File</a>
+    <% } %>
+    <% } %>
+  </div>
+  </body>
+  </html>
