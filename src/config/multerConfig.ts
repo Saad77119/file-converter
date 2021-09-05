@@ -1,7 +1,10 @@
 import multer from "multer";
+import { Console } from "winston/lib/winston/transports";
     
 export default (extension) => {
+
     return {
+
 
         //specify diskStorage (another option is memory)
         storage: multer.diskStorage({
@@ -26,13 +29,21 @@ export default (extension) => {
               if(!file){
                 next();
               }
-    
-            if(file.mimetype == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'){
+              console.log(file.mimetype);
+              if(extension == 'docx'){
+            if(file.mimetype == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.mimetype == 'application/octet-stream'){
               next(null, true);
             }else{
-    
                 next();         
             }
+          }else{
+            if(file.mimetype == 'application/pdf' || file.mimetype == 'application/octet-stream'){
+              next(null, true);
+            }else{
+             
+                next();         
+            }
+          }
         }
       }
 };
