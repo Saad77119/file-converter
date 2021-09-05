@@ -1,18 +1,39 @@
 <html>
-<head></head>
+
+<head>
+    <title>File Converter</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
 <body>
-<h2>PDF to DOCX Converter</h2>
-<form action="/uploadpdf" enctype="multipart/form-data" method="POST">
-    <div class="section">Convert PDF to DOCX</div>
-    <div class="inner-wrap">
-      <label><input type="file" id="pdf" name="pdf" /></label>
-      <div class="button-section">
-        <input type="submit" name="Upload" value="Upload File"/>
-      </div>
+    <form action="/uploadpdf" enctype="multipart/form-data" method="POST">
+        <h1 class="top-heading">Convert PDF DOCX</h1>
+        <div class="inner-wrap">
+            <div class="under-wrap">
+                <label><input type="file" id="pdf" name="pdf" /></label>
+                <div>
+                    <input type="submit" value="Upload File" />
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </form>
+    <div class="converted-file-div">
+        <% if(convertedFileDetail) { %>
+            <% if(convertedFileDetail && convertedFileDetail.success == false){ %>
+                <p class="error">
+                    <%= convertedFileDetail.message %>
+                </p>
+                <% } else { %>
+                    <p class="muted-text">
+                        <%= convertedFileDetail.message %>
+                    </p>
+                    <a class="download-btn" href='<%= convertedFileDetail.data.converted_file %>' download><i class="fa fa-download"></i>download DOCX File</a>
+                    <% } %>
+                        <% } %>
     </div>
-
-</div>
-</form>
-
 </body>
+
 </html>
