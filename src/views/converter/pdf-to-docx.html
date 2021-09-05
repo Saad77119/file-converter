@@ -3,6 +3,7 @@
 <head>
     <title>File Converter</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -29,7 +30,7 @@
                     <p class="muted-text">
                         <%= convertedFileDetail.message %>
                     </p>
-                    <a class="download-btn" href='<%= convertedFileDetail.data.converted_file %>' download>download PDF File</a>
+                    <a class="download-btn" href='<%= convertedFileDetail.data.converted_file %>' download><i class="fa fa-download"></i>download DOCX File</a>
                     <% } %>
                         <% } %>
     </div>

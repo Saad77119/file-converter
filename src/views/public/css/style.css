@@ -1,29 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,900;1,400;1,700&display=swap');
-html,body{
+html,
+body {
     font-family: 'Red Hat Display', sans-serif;
-    margin : 0;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-.top-heading{
+
+.top-heading {
     text-align: center;
     font-weight: 600;
     line-height: 1.2em;
     color: #4b4b4b;
     margin: 24px auto;
 }
-.inner-wrap{
+
+.inner-wrap {
     width: 100%;
     justify-content: center;
     align-items: center;
     display: flex;
 }
-.under-wrap
-{
+
+.under-wrap {
     display: flex;
-    border: 1px solid #d4d4d4;
-    padding: 14px;
+    border: 3px dashed #d4d4d4;
+    padding: 23px 21px;
 }
+
 .converted-file-div {
     display: flex;
     width: 100%;
@@ -31,4 +35,16 @@ html,body{
     flex-direction: column;
     align-items: center;
 }
+
+.download-btn {
+    background-color: DodgerBlue;
+    color: white;
+    padding: 11px 14px;
+    cursor: pointer;
+    font-size: 1.1em;
+    text-decoration: none;
+}
+
+.download-btn:hover {
+    background-color: royalblue;
 }
