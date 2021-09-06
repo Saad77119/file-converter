@@ -80,10 +80,8 @@ export default class ConverterService extends BaseService {
 			if(req.file) {
 				const enterPath = path.join(__dirname , "../../views/public/files",req.file.filename);
 				const sourceFilePath = path.resolve(enterPath);
-				console.log(sourceFilePath);
 				const outPathFileName = req.file.filename.split(".pdf")[0]+'.docx';
 				const outputPath = path.join(__dirname , "../../views/public/files/converted-docx",outPathFileName);
-				console.log(outputPath);
 				const outputFilePath = path.resolve(outputPath);	
 				await unoconv
 				.convert(sourceFilePath, outputFilePath)

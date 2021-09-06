@@ -1,4 +1,4 @@
-## About TEST-CAREAXIOM
+## About File-Converter-Assignment
 
 file-converter is a nodejs based application which is used to Convert file formate form PDF to DOCX and DOCX to PDF.
 
