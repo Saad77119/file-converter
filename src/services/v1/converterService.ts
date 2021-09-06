@@ -52,10 +52,8 @@ export default class ConverterService extends BaseService {
 		if(req.file) {
 		const enterPath = path.join(__dirname , "../../views/public/files",req.file.filename);
 		const parsed = await parsePdf(fs.readFileSync( enterPath));
-		console.log(parsed);
 		const outPathFileName = req.file.filename.split(".pdf")[0]+'.docx';
 		const outputPath = path.join(__dirname , "../../views/public/files/converted-docx",outPathFileName);
-		console.log(outputPath);
 		await fs.writeFile(outputPath , parsed.pages[0].text, 'UTF-8',function(err){
 			if (err) throw err;
 		});
@@ -82,15 +80,16 @@ export default class ConverterService extends BaseService {
 			if(req.file) {
 				const enterPath = path.join(__dirname , "../../views/public/files",req.file.filename);
 				const sourceFilePath = path.resolve(enterPath);
+				console.log(sourceFilePath);
 				const outPathFileName = req.file.filename.split(".pdf")[0]+'.docx';
 				const outputPath = path.join(__dirname , "../../views/public/files/converted-docx",outPathFileName);
+				console.log(outputPath);
 				const outputFilePath = path.resolve(outputPath);	
 				await unoconv
 				.convert(sourceFilePath, outputFilePath)
 				.then(result => {
 					fs.unlinkSync(enterPath);
 					return this.makeResponseObject(true, 'Successfully Converted', 'files/converted-docx/'+outPathFileName)
-					console.log(result); // return outputFilePath
 				});				
 			}
 			else{

@@ -1,10 +1,10 @@
 import BaseService from "./baseService";
 import path from 'path';
-import fs from 'fs';
 import docxConverter from 'docx-pdf';
 import parsePdf from 'parse-pdf';
+import fs from 'fs';
 import unoconv from "awesome-unoconv";
-
+import  request  from "request";
 
 export default class ConverterService extends BaseService {
 
@@ -35,7 +35,7 @@ export default class ConverterService extends BaseService {
 
 
 		} catch(err) {
-			return this.makeResponseObject(false, 'Something issue please try again')
+			return this.makeResponseObject(false,err.message)
 		}
 
 
@@ -47,15 +47,13 @@ export default class ConverterService extends BaseService {
  * @decs Convert Pdf to Docx by simple parsing of pdf then wite in docx file
  * @returns object having docx file url
  */	
-	convertPdfToDocx  =  async (req: any, res: any)  => {
+	convertPdfToDocxMethod1  =  async (req: any, res: any)  => {
 	try{
 		if(req.file) {
 		const enterPath = path.join(__dirname , "../../views/public/files",req.file.filename);
 		const parsed = await parsePdf(fs.readFileSync( enterPath));
-		console.log(parsed);
 		const outPathFileName = req.file.filename.split(".pdf")[0]+'.docx';
 		const outputPath = path.join(__dirname , "../../views/public/files/converted-docx",outPathFileName);
-		console.log(outputPath);
 		await fs.writeFile(outputPath , parsed.pages[0].text, 'UTF-8',function(err){
 			if (err) throw err;
 		});
@@ -82,6 +80,7 @@ export default class ConverterService extends BaseService {
 			if(req.file) {
 				const enterPath = path.join(__dirname , "../../views/public/files",req.file.filename);
 				const sourceFilePath = path.resolve(enterPath);
+				console.log(sourceFilePath);
 				const outPathFileName = req.file.filename.split(".pdf")[0]+'.docx';
 				const outputPath = path.join(__dirname , "../../views/public/files/converted-docx",outPathFileName);
 				const outputFilePath = path.resolve(outputPath);	
@@ -90,7 +89,6 @@ export default class ConverterService extends BaseService {
 				.then(result => {
 					fs.unlinkSync(enterPath);
 					return this.makeResponseObject(true, 'Successfully Converted', 'files/converted-docx/'+outPathFileName)
-					console.log(result); // return outputFilePath
 				});				
 			}
 			else{
