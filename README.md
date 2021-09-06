@@ -4,8 +4,20 @@ file-converter is a nodejs based application which is used to Convert file forma
 
 
 
+## IMPORTANT : TO RUN "PDF TO DOCX MATHOD 2" , you need to add "unoconv" at server" 
+
+```
+RUN:   sudo apt install unoconv
+```
+
 
 ## STEPS TO RUN PROJECT
-- Git clone https://github.com/Saad77119/file-converter.git
-- RUN Command : npm i
-- RUN Command : nodemon | npm start
+
+```
+STEP1: - Git clone https://github.com/Saad77119/file-converter.git
+STEP2:  cd file-conveter
+STEP3: npm install
+STEP4: nodemon
+Step5: RUN "sudo apt install unoconv" to install unoconv at ubuntu server           //only for PDF to doc method 2 
+
+```

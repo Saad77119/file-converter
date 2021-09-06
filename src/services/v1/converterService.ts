@@ -89,8 +89,8 @@ export default class ConverterService extends BaseService {
 				.convert(sourceFilePath, outputFilePath)
 				.then(result => {
 					fs.unlinkSync(enterPath);
-					return this.makeResponseObject(true, 'Successfully Converted', 'files/converted-docx/'+outPathFileName)
 				});				
+				return this.makeResponseObject(true, 'Successfully Converted', 'files/converted-docx/'+outPathFileName)
 			}
 			else{
 				return this.makeResponseObject(false, 'Invalid File format.Please try again');
