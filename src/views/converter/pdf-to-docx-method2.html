@@ -1,14 +1,29 @@
-<html>
+<html lang="en" dir="ltr">
 
 <head>
+    <meta charset="utf-8">
     <title>File Converter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
 <body>
-    <form action="/uploadpdf" enctype="multipart/form-data" method="POST">
-        <h1 class="top-heading">Convert PDF DOCX</h1>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+        <label class="logo">File Converter</label>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/converter/docx">Docx To Pdf</a></li>
+            <li><a href="/converter/pdf1">PDF to Docx by Method 1</a></li>
+            <li><a class="active" href="/converter/pdf2">PDF to Docx by Method 2</a></li>
+        </ul>
+    </nav>
+    <form action="/uploadpdf2" enctype="multipart/form-data" method="POST">
+        <h1 class="top-heading">Convert PDF To DOCX Metohd 2</h1>
         <div class="inner-wrap">
             <div class="under-wrap">
                 <label><input type="file" id="pdf" name="pdf" /></label>
@@ -34,6 +49,9 @@
                     <% } %>
                         <% } %>
     </div>
+    <footer class="footer">
+        <p>&#169; 2021 <b>File Converter</b> All Rights are reserved</p>
+    </footer>
 </body>
 
 </html>

@@ -4,82 +4,77 @@ import { Container } from "typedi";
 import converterService from "../services/v1/converterService";
 import multerConfig from "../config/multerConfig";
 import multer from "multer";
-var pandoc = require('node-pandoc');
-
+import fs from "fs";
+import request from "request";
 
 const converterServiceInstance = Container.get(converterService);
-var fs = require('fs'),
-    request = require('request');
 
 /**
  * Converter Resource
  */
-export default (app: Router) => {
- 
+export default (app : Router) => {
 
+//GET request on "/" and render index.html 
+  app.get("/", async (req, res) => {
+    res.render(path.resolve("src/views/converter/index"), {
+      convertedFileDetail: null,
+    });
+  });
 
-
+//GET request on "/converter/docx" and render docx-to-pdf.html 
   app.get("/converter/docx", async (req, res) => {
     res.render(path.resolve("src/views/converter/docx-to-pdf"), {
       convertedFileDetail: null,
     });
   });
+
+//POST request on "/uploaddocx" to convert docx to pdf 
   app.post('/uploaddocx', multer(multerConfig('docx')).single('docx'), async function(req, res, next){
    
           const converterDetail = await converterServiceInstance.convertDocxToPdf(
     req,
     res
   );    
-  console.log(converterDetail);
-
   res.render(path.resolve("src/views/converter/docx-to-pdf"), {
     convertedFileDetail : converterDetail,
   });
   });
-  app.get("/converter/pdf", async (req, res) => {
-    res.render(path.resolve("src/views/converter/pdf-to-docx"), {
+
+//GET request on "/converter/pdf1" and render pdf-to-docx-method1.html 
+  app.get("/converter/pdf1", async (req, res) => {
+    res.render(path.resolve("src/views/converter/pdf-to-docx-method1"), {
       convertedFileDetail: null,
     });
   });
-  app.get("/testpdftodocx",async function(req,res,next){
-    
-    var src, args, callback;
-    const enterPath = path.join(__dirname , "../views/public/files/resume.pdf");
-    src = enterPath ;
-    args = ['-f','pdf', '-o','48656219.docx'];
-// Set your callback function
-    callback = function (err, result) {
 
-        if (err) {
-            console.error('Oh Nos: ',err);
-        }
-
-        // For output to files, the 'result' will be a boolean 'true'.
-        // Otherwise, the converted value will be returned.
-        console.log(result);
-        // Call pandoc
-
-
-    };
-    await pandoc(src, args, callback);
-    res.send({"status":"ok"})
+//GET request on "/converter/pdf2" and render pdf-to-docx-method2.html 
+  app.get("/converter/pdf2", async (req, res) => {
+    res.render(path.resolve("src/views/converter/pdf-to-docx-method2"), {
+      convertedFileDetail: null,
+    });
   });
-  app.post('/uploadpdf', multer(multerConfig('pdf')).single('pdf'), async function(req, res, next){
-   
-    const converterDetail = await converterServiceInstance.convertPdfToDocx(
-req,
-res
-);    
-console.log(converterDetail);
-
-res.render(path.resolve("src/views/converter/pdf-to-docx"), {
-convertedFileDetail : converterDetail,
-});
-});
-
-  
   
 
+//POST request on "/uploadpdf" to convert pdf to docx by method1
+  app.post('/uploadpdf', multer(multerConfig('pdf')).single('pdf'), async function(req, res, next){ 
+    const converterDetail = await converterServiceInstance.convertPdfToDocxMethod1(
+    req,
+    res
+    );    
+    res.render(path.resolve("src/views/converter/pdf-to-docx-method1"), {
+    convertedFileDetail : converterDetail,
+    });
+  });
 
-
+//POST request on "/uploadpdf2" to convert pdf to docx by method2  
+  app.post('/uploadpdf2', multer(multerConfig('pdf')).single('pdf'), async function(req, res, next){
+    
+    const converterDetail = await converterServiceInstance.convertPdfToDocxMethod2(
+    req,
+    res
+    );    
+    res.render(path.resolve("src/views/converter/pdf-to-docx-method2"), {
+    convertedFileDetail : converterDetail,
+    });
+    });
 };

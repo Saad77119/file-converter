@@ -31,18 +31,31 @@ export default (extension) => {
               }
               console.log(file.mimetype);
               if(extension == 'docx'){
+               var  filedetail = file.originalname.split(".");
+                if(filedetail[filedetail.length - 1] === "docx"){
             if(file.mimetype == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.mimetype == 'application/octet-stream'){
               next(null, true);
             }else{
                 next();         
             }
           }else{
+            next(); 
+          }
+
+          }else{
+            var  filedetail = file.originalname.split(".");
+            if(filedetail[filedetail.length - 1] === "pdf"){
             if(file.mimetype == 'application/pdf' || file.mimetype == 'application/octet-stream'){
               next(null, true);
             }else{
              
                 next();         
             }
+          }else{
+             
+            next();         
+        }
+          
           }
         }
       }

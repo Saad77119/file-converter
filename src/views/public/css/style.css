@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,900;1,400;1,700&display=swap');
-html,
-body {
-    font-family: 'Red Hat Display', sans-serif;
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-family: 'Red Hat Display', sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .top-heading {
@@ -20,6 +25,15 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
+}
+
+.footer {
+    background: #e4e4e4;
+    padding: 12px 0px;
+    text-align: center;
+    margin-bottom: 0 !important;
+    margin: auto;
+    width: 100%;
 }
 
 .under-wrap {
@@ -47,4 +61,218 @@ body {
 
 .download-btn:hover {
     background-color: royalblue;
+}
+
+nav {
+    background: #0082e6;
+    height: 80px;
+    width: 100%;
+}
+
+label.logo {
+    color: white;
+    font-size: 35px;
+    line-height: 80px;
+    padding: 0 100px;
+    font-weight: bold;
+}
+
+nav ul {
+    float: right;
+    margin-right: 20px;
+}
+
+nav ul li {
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 5px;
+}
+
+nav ul li a {
+    color: white;
+    font-size: 17px;
+    padding: 7px 13px;
+    border-radius: 3px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+nav ul li a.active,
+nav ul li a:hover {
+    background: #1b9bff;
+    transition: .5s;
+}
+
+.checkbtn {
+    font-size: 30px;
+    color: white;
+    float: right;
+    line-height: 80px;
+    margin-right: 40px;
+    cursor: pointer;
+    display: none;
+}
+
+#check {
+    display: none;
+}
+
+@media (max-width: 952px) {
+    label.logo {
+        font-size: 30px;
+        padding-left: 50px;
+    }
+    nav ul li a {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 858px) {
+    .checkbtn {
+        margin: 23px;
+        display: block;
+    }
+    nav ul {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        background: #2c3e50;
+        top: 80px;
+        left: -100%;
+        text-align: center;
+        transition: all .5s;
+    }
+    nav ul li {
+        display: block;
+        margin: 50px 0;
+        line-height: 30px;
+    }
+    nav ul li a {
+        font-size: 20px;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+        background: none;
+        color: #0082e6;
+    }
+    #check:checked~ul {
+        left: 0;
+    }
+    .header {
+        height: auto !important;
+        flex-direction: column-reverse;
+    }
+    .header-right-div,
+    .header-left-div {
+        width: 100% !important;
+    }
+    .header-right-div img {
+        width: inherit;
+    }
+    .header {
+        border-bottom: 3px solid #0082e6;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        margin-bottom: 10%;
+    }
+    .grop-cards {
+        flex-direction: column;
+    }
+    .card {
+        width: 55% !important;
+    }
+}
+
+.header {
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    transition: auto;
+    width: 100%;
+}
+
+.header-right-div,
+.header-left-div {
+    width: 50%;
+    margin: auto;
+}
+
+.header-left-div {
+    text-align: center;
+}
+
+.header-heading {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.header-text {
+    padding: 0px 80px;
+    font-size: 1.1em;
+}
+
+.header-btn {
+    padding: 13px 24px;
+    background: #fff;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+    margin: 17px;
+    border-radius: 10px;
+}
+
+.header-btn img {
+    width: 125px;
+}
+
+.header-btns-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    /* padding: 28px 67px; */
+    background: #fff;
+    align-items: center;
+    width: 23%;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+    margin: 17px;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 183px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.grop-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1.heading {
+    text-align: center;
+    font-size: 2.4rem;
+    margin-bottom: 30px;
+}
+
+.card h3,
+.card p {
+    text-align: center;
+}
+
+.card a {
+    text-decoration: none;
+    color: black;
+    text-transform: capitalize;
+}
+
+.card:hover {
+    background: #e4e4e4;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 39%), 0 3px 6px rgb(0 0 0 / 49%);
+    transition: 1s ease-in-out;
+}
+
+.card h3 {
+    margin-top: 15px;
 }

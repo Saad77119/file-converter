@@ -1,59 +1,104 @@
-import * as request from "request";
-import helperService from "./helperService";
-import {of , forkJoin, bindNodeCallback } from "rxjs";
-import { catchError } from "rxjs/operators";
 import BaseService from "./baseService";
-import { URLS } from "../../interface/url.interface"
+import path from 'path';
+import fs from 'fs';
+import docxConverter from 'docx-pdf';
+import parsePdf from 'parse-pdf';
+import unoconv from "awesome-unoconv";
 
-export default class AddressService extends BaseService {
 
-	fetchTitleFromURLs = async (req: any, res: any)  => {
-    if (req.query.address) {
-      let addresses = [];
+export default class ConverterService extends BaseService {
 
-      addresses = helperService.validatedUrls(
-        typeof req.query.address === "string"
-          ? [req.query.address]
-          : req.query.address
-      );
-	  const requestAsObservable = bindNodeCallback(request.get);
 
-      const observables = addresses
-        .filter((address) => address.value === null)
-        .map((address, index) =>
-          requestAsObservable({
-            url: address.address,
-            headers: { addressIndex: index },
-		  }).pipe(
-			catchError(error => of(error))
-			)
-		);
+/**
+ * @param req 
+ * @param res 
+ * @decs Convert Docx to Pdf by unoconv
+ * @returns object having docx file url
+ */	
 
-		const data : URLS[] = await new Promise((resolve, _reject)   => {
-			forkJoin(...observables)
-			.subscribe(
-				(resp: any) => {
-				  	const data = resp.map((addresRespnse, index) => {	
-					
-						if(addresRespnse.errno) {
-						return this.makeNoResponseObject(addresRespnse, addresses)	
-					}
+	convertDocxToPdf =  async (req: any, res: any)  => {
 
-					return this.makeSuccessObject(addresRespnse[0], addresses);
-				  });
-				  
-				  resolve(data);
-				  
+		try {
+			if(req.file) {
+				const enterPath = path.join(__dirname , "../../views/public/files",req.file.filename);
+				const outPathFileName = req.file.filename.split(".docx")[0]+'.pdf';
+				const outputPath = path.join(__dirname , "../../views/public/files/converted-pdf",outPathFileName);
+
+				const data = await docxConverter(enterPath, outputPath, (err,res)=> {});
+				fs.unlinkSync(enterPath)
+				 return this.makeResponseObject(true, 'Successfully Converted', 'files/converted-pdf/'+outPathFileName)
+
+				} else {
+
+					return this.makeResponseObject(false, 'Invalid File format.Please try again')
 				}
-				
-			)
+
+
+		} catch(err) {
+			return this.makeResponseObject(false, 'Something issue please try again')
+		}
+
+
+	};
+
+/**
+ * @param req 
+ * @param res 
+ * @decs Convert Pdf to Docx by simple parsing of pdf then wite in docx file
+ * @returns object having docx file url
+ */	
+	convertPdfToDocx  =  async (req: any, res: any)  => {
+	try{
+		if(req.file) {
+		const enterPath = path.join(__dirname , "../../views/public/files",req.file.filename);
+		const parsed = await parsePdf(fs.readFileSync( enterPath));
+		console.log(parsed);
+		const outPathFileName = req.file.filename.split(".pdf")[0]+'.docx';
+		const outputPath = path.join(__dirname , "../../views/public/files/converted-docx",outPathFileName);
+		console.log(outputPath);
+		await fs.writeFile(outputPath , parsed.pages[0].text, 'UTF-8',function(err){
+			if (err) throw err;
 		});
+		fs.unlinkSync(enterPath)
+		return this.makeResponseObject(true, 'Successfully Converted', 'files/converted-docx/'+outPathFileName)
 
-
-		return [...data, ...this.fetchInvalidURLAddress(addresses)]
-
-    }
-  };
-
- 
+	}
+	else{
+		return this.makeResponseObject(false, 'Invalid File format.Please try again')
+	}
+	}
+	catch(err){
+		return this.makeResponseObject(false, err.message)
+	}
+	}
+/**
+ * @param req 
+ * @param res 
+ * @decs Convert Pdf to Docx by unoconv
+ * @returns object having docx file url
+ */	
+	convertPdfToDocxMethod2	= async (req: any,res: any)=>{
+		try {
+			if(req.file) {
+				const enterPath = path.join(__dirname , "../../views/public/files",req.file.filename);
+				const sourceFilePath = path.resolve(enterPath);
+				const outPathFileName = req.file.filename.split(".pdf")[0]+'.docx';
+				const outputPath = path.join(__dirname , "../../views/public/files/converted-docx",outPathFileName);
+				const outputFilePath = path.resolve(outputPath);	
+				await unoconv
+				.convert(sourceFilePath, outputFilePath)
+				.then(result => {
+					fs.unlinkSync(enterPath);
+					return this.makeResponseObject(true, 'Successfully Converted', 'files/converted-docx/'+outPathFileName)
+					console.log(result); // return outputFilePath
+				});				
+			}
+			else{
+				return this.makeResponseObject(false, 'Invalid File format.Please try again');
+			}	
+			}
+		catch(err){
+			return this.makeResponseObject(false, err.message);	
+		}
+		};
 }
